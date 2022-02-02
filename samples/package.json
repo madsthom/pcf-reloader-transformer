@@ -11,8 +11,9 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "ncp": "^2.0.0",
     "pcf-reloader-transformer": "file:..",
-    "typescript": "^4.4.4",
-    "ts-patch": "^1.4.5"
+    "ts-patch": "^1.4.5",
+    "typescript": "^4.4.4"
   }
 }

@@ -1,10 +1,40 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
-export default class implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export type ICounter = {
+	ctor: number,
+	init: number,
+	updateView: number,
+	destroy: number,
+	getOutputs: number
+}
+
+const counter = {
+	ctor: 0,
+	init: 0,
+	updateView: 0,
+	destroy: 0,
+	getOutputs: 0
+}
+
+export type IParameters = {
+	context: ComponentFramework.Context<IInputs>,
+	updateContext: ComponentFramework.Context<IInputs>,
+	notifyOutputChanged: () => void,
+	state: ComponentFramework.Dictionary,
+	container: HTMLDivElement
+}
+
+const parameters: Partial<IParameters> = {}
+
+export const getCounter = (): ICounter => ({...counter})
+export const getParameters = (): Partial<IParameters> => ({...parameters})
+
+export class SampleComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	/**
 	 * Empty constructor.
 	 */
 	constructor() {
+		counter.ctor++;
 	}
 
 	/**
@@ -16,7 +46,11 @@ export default class implements ComponentFramework.StandardControl<IInputs, IOut
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): void {
-		
+		counter.init++;
+		parameters.context = context
+		parameters.notifyOutputChanged = notifyOutputChanged
+		parameters.state = state
+		parameters.container = container
 	}
 
 	/**
@@ -24,7 +58,8 @@ export default class implements ComponentFramework.StandardControl<IInputs, IOut
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void {
-
+		counter.updateView++;
+		parameters.updateContext = context
 	}
 
 	/**
@@ -32,6 +67,7 @@ export default class implements ComponentFramework.StandardControl<IInputs, IOut
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
 	public getOutputs(): IOutputs {
+		counter.getOutputs++;
 		return {};
 	}
 
@@ -40,6 +76,6 @@ export default class implements ComponentFramework.StandardControl<IInputs, IOut
 	 * i.e. cancelling any pending remote calls, removing listeners, etc.
 	 */
 	public destroy(): void {
-		
+		counter.destroy++;
 	}
 }

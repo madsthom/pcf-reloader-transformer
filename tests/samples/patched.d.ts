@@ -1,11 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var default_1 = /** @class */ (function () {
+/// <reference types="powerapps-component-framework" />
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
+export declare class SampleComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+    private _container;
     /**
      * Empty constructor.
      */
-    function default_1() {
-    }
+    constructor();
     /**
      * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
      * Data-set values are not initialized here, use updateView.
@@ -14,27 +14,23 @@ var default_1 = /** @class */ (function () {
      * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
      * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
      */
-    default_1.prototype.init = function (context, notifyOutputChanged, state, container) {
-    };
+    init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): void;
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      */
-    default_1.prototype.updateView = function (context) {
-    };
+    updateView(context: ComponentFramework.Context<IInputs>): void;
     /**
      * It is called by the framework prior to a control receiving new data.
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
      */
-    default_1.prototype.getOutputs = function () {
-        return {};
-    };
+    getOutputs(): IOutputs;
     /**
      * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
      * i.e. cancelling any pending remote calls, removing listeners, etc.
      */
-    default_1.prototype.destroy = function () {
-    };
-    return default_1;
-}());
-exports.default = default_1;
+    destroy(): void;
+    private _reloadSocket;
+    private listenToWSUpdates;
+    private reloadComponent;
+}
