@@ -41,6 +41,7 @@ describe('Full sample compile', () => {
 		'notMatchingImplementsWrongTypeCount',
 		'patched',
 		'renamedParameters',
+		'reactComponent'
 	])('can handle full file (%s)', (f) => {
 		const { data, filePath } = readFile(`${f}.ts`)
 

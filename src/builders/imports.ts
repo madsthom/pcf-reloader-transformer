@@ -12,6 +12,7 @@ import {
 	baseClass,
 	injectLibName,
 	printNode,
+	reactBaseClass,
 	toString,
 } from '../lib';
 
@@ -19,7 +20,7 @@ const injectLibSource = "pcf-reloader-transformer/dist/injected"
 
 /**
  * Build a namespace inmport for the injected code
- * 
+ *
  * ```
  * import * as _pcfReloadLib from "pcf-reloader-transformer/dist/injected"
  * ```
@@ -39,7 +40,7 @@ export const createLibraryImport = () =>
 
 /**
  * Check if the injected code library has already been imported in the given source file
- * 
+ *
  * This is used to check if we've already updated the given source file
  * @param sourceFile The source file to check
  * @returns TRUE if the code has already been imported
@@ -67,7 +68,7 @@ export const getParameterNames = (node: ClassDeclaration): ParameterNames|undefi
 	if (!clause) return undefined
 
 	// We want it to implement "ComponentFramework.StandardControl"
-	const controlType = clause.types.find(t => t.expression.getText() === baseClass)
+	const controlType = clause.types.find(t => t.expression.getText() === baseClass || t.expression.getText() === reactBaseClass)
 	if (!controlType) return undefined
 
 	// The control takes 2 parameters
